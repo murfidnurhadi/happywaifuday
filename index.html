@@ -3,34 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Happy Birthday!!! :)</title>
   <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
       text-align: center;
       background: #ffe6f0;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
     }
     .container {
-      max-width: 800px;
-      margin: auto;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
     .idea-text {
-      opacity: 0;
       font-size: 24px;
-      margin-top: 40px;
+      margin-top: 20px;
+      opacity: 0;
     }
     .animated-image {
       width: 300px;
       height: auto;
-      margin: 20px auto;
-      display: block;
+      margin-top: 20px;
       opacity: 0;
+    }
+    .next-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #ff4081;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .next-btn:hover {
+      background-color: #e73370;
     }
   </style>
 </head>
@@ -43,66 +60,66 @@
   </audio>
 
   <div class="container">
-    <h1>Hi <span id="name">Firefly</span></h1>
-    <p id="greetingText">I really like your name btw!</p>
+    <h1 id="title" style="margin-bottom: 10px;">Hi Firefly</h1>
+    <p id="greetingText" style="margin-bottom: 30px;">I really like your name btw!</p>
 
-    <div id="ideas">
-      <p class="idea-text" id="idea-1">That's what I was going to do.</p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-1" />
+    <p class="idea-text" id="ideaText"></p>
+    <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="ideaImage" />
 
-      <p class="idea-text" id="idea-2">But then I stopped.</p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-2" />
-
-      <p class="idea-text" id="idea-3">I realised, I wanted to do something<br><strong>special</strong>.</p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-3" />
-
-      <p class="idea-text" id="idea-4">Because,</p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-4" />
-
-      <p class="idea-text" id="idea-5">You are Special <span>:)</span></p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-5" />
-
-      <p class="idea-text" id="idea-6"><span>S</span> <span>O</span></p>
-      <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="img-idea-6" />
-    </div>
-
+    <button class="next-btn" id="nextBtn">Next ➡️</button>
   </div>
 
   <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script>
-    // Fungsi untuk animasi teks dan gambar berurutan
-    function animateIdeas() {
-      const ideas = [
-        { text: "#idea-1", img: "#img-idea-1" },
-        { text: "#idea-2", img: "#img-idea-2" },
-        { text: "#idea-3", img: "#img-idea-3" },
-        { text: "#idea-4", img: "#img-idea-4" },
-        { text: "#idea-5", img: "#img-idea-5" },
-        { text: "#idea-6", img: "#img-idea-6" },
-      ];
+    // Data teks dan gambar
+    const ideas = [
+      "That's what I was going to do.",
+      "But then I stopped.",
+      "I realised, I wanted to do something <strong>special</strong>.",
+      "Because,",
+      "You are Special :)",
+      "<span>S</span> <span>O</span>",
+      "Happy Birthday!!! 🎉🎂"
+    ];
 
-      let delayTime = 0;
+    let currentIdea = 0;
 
-      ideas.forEach((idea) => {
-        gsap.to(idea.text, {
-          opacity: 1,
-          y: -20,
-          duration: 1,
-          delay: delayTime
-        });
-        gsap.to(idea.img, {
-          opacity: 1,
-          y: -20,
-          scale: 1.05,
-          duration: 1.5,
-          delay: delayTime + 1
-        });
-        delayTime += 2.5; // jeda antar animasi
-      });
+    const ideaText = document.getElementById('ideaText');
+    const ideaImage = document.getElementById('ideaImage');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Fungsi untuk tampilkan teks dan gambar
+    function showIdea(index) {
+      if(index < ideas.length){
+        ideaText.innerHTML = ideas[index];
+        gsap.fromTo(ideaText, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 1});
+        gsap.fromTo(ideaImage, {opacity: 0, scale: 0.8}, {opacity: 1, scale: 1, duration: 1.2});
+      } else {
+        // Kalau sudah habis semua
+        ideaText.innerHTML = "The End :)";
+        ideaImage.style.display = "none";
+        nextBtn.style.display = "none";
+      }
     }
 
-    animateIdeas();
+    // Tombol klik
+    nextBtn.addEventListener('click', () => {
+      showIdea(currentIdea);
+      currentIdea++;
+    });
+
+    // Tombol keyboard (panah kanan)
+    document.addEventListener('keydown', (e) => {
+      if(e.key === "ArrowRight") {
+        showIdea(currentIdea);
+        currentIdea++;
+      }
+    });
+
+    // Start pertama
+    showIdea(currentIdea);
+    currentIdea++;
   </script>
 
 </body>
