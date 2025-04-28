@@ -1,126 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday!!! :)</title>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
-      background: #ffe6f0;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-    .container {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .idea-text {
-      font-size: 24px;
-      margin-top: 20px;
-      opacity: 0;
-    }
-    .animated-image {
-      width: 300px;
-      height: auto;
-      margin-top: 20px;
-      opacity: 0;
-    }
-    .next-btn {
-      margin-top: 30px;
-      padding: 10px 20px;
-      background-color: #ff4081;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .next-btn:hover {
-      background-color: #e73370;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Animasi Gambar Bergerak</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- GSAP (TimelineMax) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
 </head>
-
 <body>
 
-  <audio class="song" loop autoplay>
-    <source src="./music/hbd.mpeg">
-    Your browser isn't invited for super fun audio time.
-  </audio>
+    <div class="container">
+        <div class="text-sequence">
+            <div class="one">Selamat Datang</div>
+            <div class="two">Klik tombol di bawah ya!</div>
+            <div class="three">Enjoy!</div>
+            <div class="four">Let's go</div>
+            <div class="fake-btn">Start</div>
+        </div>
 
-  <div class="container">
-    <h1 id="title" style="margin-bottom: 10px;">Hi Firefly</h1>
-    <p id="greetingText" style="margin-bottom: 30px;">I really like your name btw!</p>
+        <div class="hbd-chatbox">Happy Birthday!</div>
+        <div class="wish-hbd">Wish You All the Best</div>
+        <div class="idea-1">This is Idea 1</div>
+        <div class="idea-2">This is Idea 2</div>
+        <div class="idea-3"><strong>This is Idea 3</strong></div>
+        <div class="idea-4">This is Idea 4</div>
+        <div class="idea-5"><span>Idea 5</span></div>
+        <div class="idea-6"><span>Idea 6</span></div>
 
-    <p class="idea-text" id="ideaText"></p>
-    <img src="img/firefly.jpg" alt="Firefly" class="animated-image" id="ideaImage" />
+        <div class="baloons">
+            <img src="balloon.png" alt="Baloon">
+        </div>
 
-    <button class="next-btn" id="nextBtn">Next ➡️</button>
-  </div>
+        <div class="profile-picture">
+            <img src="profile.png" alt="Profile" width="100">
+        </div>
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <script>
-    // Data teks dan gambar
-    const ideas = [
-      "That's what I was going to do.",
-      "But then I stopped.",
-      "I realised, I wanted to do something <strong>special</strong>.",
-      "Because,",
-      "You are Special :)",
-      "<span>S</span> <span>O</span>",
-      "Happy Birthday!!! 🎉🎂"
-    ];
+        <div class="hat">🎩</div>
 
-    let currentIdea = 0;
+        <div class="wish">
+            <h5>Semoga sukses selalu!</h5>
+        </div>
 
-    const ideaText = document.getElementById('ideaText');
-    const ideaImage = document.getElementById('ideaImage');
-    const nextBtn = document.getElementById('nextBtn');
+        <div class="eight">
+            <svg></svg>
+        </div>
 
-    // Fungsi untuk tampilkan teks dan gambar
-    function showIdea(index) {
-      if(index < ideas.length){
-        ideaText.innerHTML = ideas[index];
-        gsap.fromTo(ideaText, {opacity: 0, y: 30}, {opacity: 1, y: 0, duration: 1});
-        gsap.fromTo(ideaImage, {opacity: 0, scale: 0.8}, {opacity: 1, scale: 1, duration: 1.2});
-      } else {
-        // Kalau sudah habis semua
-        ideaText.innerHTML = "The End :)";
-        ideaImage.style.display = "none";
-        nextBtn.style.display = "none";
-      }
-    }
+        <div class="nine">
+            <p>Enjoy your day!</p>
+        </div>
 
-    // Tombol klik
-    nextBtn.addEventListener('click', () => {
-      showIdea(currentIdea);
-      currentIdea++;
-    });
+        <div class="last-smile">😊</div>
 
-    // Tombol keyboard (panah kanan)
-    document.addEventListener('keydown', (e) => {
-      if(e.key === "ArrowRight") {
-        showIdea(currentIdea);
-        currentIdea++;
-      }
-    });
+        <button id="replay">Replay Animation</button>
+    </div>
 
-    // Start pertama
-    showIdea(currentIdea);
-    currentIdea++;
-  </script>
+    <!-- Musik (disembunyikan) -->
+    <audio class="song" src="musik.mp3"></audio>
 
+    <!-- Tombol Panah -->
+    <button id="arrowRight" class="arrow-btn">➡️</button>
+
+    <!-- Gambar bergerak -->
+    <img src="gambar.png" id="movingImage" class="moving-img">
+
+    <script src="script.js"></script>
 </body>
 </html>
